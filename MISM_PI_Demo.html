@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MISM-PI · ProChild CoLAB</title>
+<style>
+/* ─── RESET ─────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{height:100%;overflow-x:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F8FAFC;color:#1E293B;min-height:100vh;overflow-x:hidden}
+button,a{font-family:inherit;cursor:pointer;touch-action:manipulation;-webkit-appearance:none;appearance:none;text-decoration:none}
+.hide{display:none!important}
+
+/* ─── LANDING ───────────────────────────── */
+#vLanding{min-height:100vh;background:linear-gradient(155deg,#064D4A 0%,#0A6E6A 65%,#1D7A76 100%);color:#fff;padding:36px 18px 48px}
+.badge{display:inline-block;background:rgba(255,255,255,.14);border-radius:100px;padding:6px 16px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:18px}
+.big-title{font-size:30px;font-weight:800;line-height:1.2;margin-bottom:10px}
+.big-sub{font-size:15px;opacity:.85;line-height:1.65;margin-bottom:32px}
+.cards-wrap{display:flex;flex-direction:column;gap:12px}
+button.rcard{display:flex;align-items:center;gap:16px;width:100%;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:18px;padding:18px 16px;color:#fff;text-align:left;transition:background .12s;touch-action:manipulation}
+button.rcard:active{background:rgba(255,255,255,.2)}
+.rcard-ico{font-size:36px;flex-shrink:0;width:44px;text-align:center}
+.rcard-body{flex:1}
+.rcard-body h3{font-size:17px;font-weight:800;margin-bottom:2px}
+.rcard-body .rsub{font-size:11px;opacity:.62;font-weight:600;letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px}
+.rcard-pill{display:inline-block;border-radius:100px;padding:5px 14px;font-size:12px;font-weight:800;border:none;margin-top:2px;touch-action:manipulation}
+.rcard-arr{font-size:24px;opacity:.55;flex-shrink:0}
+.disc{text-align:center;margin-top:32px;opacity:.35;font-size:11px;letter-spacing:.05em}
+
+/* ─── HEADER ─────────────────────────────── */
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:56px;position:sticky;top:0;z-index:200}
+.hdr.teal{background:#0A6E6A;color:#fff}
+.hdr.white{background:#fff;border-bottom:1px solid #E2E8F0}
+.hdr.dark{background:#0D1117;border-bottom:1px solid rgba(255,255,255,.09);color:#fff}
+.hdr-info{flex:1;min-width:0;overflow:hidden}
+.hdr-title{font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-sub{font-size:11px;opacity:.72;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+button.hbtn{border:none;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:700;min-height:40px;flex-shrink:0;touch-action:manipulation;color:#fff}
+button.hbtn.on-teal{background:rgba(255,255,255,.2)}
+button.hbtn.on-white{background:#F1F5F9;color:#475569}
+button.hbtn.on-dark{background:rgba(255,255,255,.12)}
+button.hbtn:active{opacity:.75}
+
+/* ─── CARD ───────────────────────────────── */
+.card{background:#fff;border-radius:14px;padding:18px;border:1px solid #E2E8F0;box-shadow:0 1px 6px rgba(0,0,0,.06);margin-bottom:14px}
+.scr{padding:14px 16px 44px;max-width:640px;margin:0 auto}
+
+/* ─── FAMILY HOME ────────────────────────── */
+.tl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -18px;padding:4px 18px 10px}
+.tl{display:flex;width:max-content}
+.tl-item{display:flex;align-items:center}
+.tl-col{display:flex;flex-direction:column;align-items:center;gap:5px;width:68px}
+.tl-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
+.tl-dot.dn{background:#15803D}
+.tl-dot.cu{background:#0A6E6A;box-shadow:0 0 0 5px rgba(10,110,106,.2)}
+.tl-dot.td{background:#E2E8F0;color:#94A3B8}
+.tl-lbl{font-size:10px;font-weight:600;text-align:center;line-height:1.3;color:#64748B}
+.tl-lbl.cu{color:#0A6E6A;font-weight:800}
+.tl-dt{font-size:9px;color:#94A3B8;text-align:center}
+.tl-ln{height:2px;width:18px;flex-shrink:0;margin-bottom:24px}
+.abox{background:#FFFBEB;border:1px solid #FDE68A;border-radius:13px;padding:14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px}
+.abox-ico{font-size:22px;flex-shrink:0;margin-top:1px}
+.abox-t{font-weight:800;color:#B45309;font-size:14px;margin-bottom:3px}
+.abox-s{font-size:13px;color:#92400E;line-height:1.45}
+.qgrid{display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+button.qcard{display:flex;align-items:center;gap:14px;background:#fff;border:2px solid #E2E8F0;border-radius:14px;padding:18px;text-align:left;width:100%;transition:border-color .15s;touch-action:manipulation}
+button.qcard:active{background:#F8FFFE}
+.qcard-ico{font-size:32px;flex-shrink:0}
+.qcard-body{flex:1;min-width:0}
+.qcard-t{font-weight:800;font-size:15px;margin-bottom:3px;color:#1E293B}
+.qcard-s{font-size:12px;font-weight:700;margin-bottom:6px}
+.qcard-ft{display:flex;justify-content:space-between;align-items:center}
+.qcard-time{font-size:12px;color:#94A3B8}
+.res-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #F1F5F9}
+.res-row:last-child{border-bottom:none}
+
+/* ─── QUESTIONNAIRE ──────────────────────── */
+.qhdr{background:#0A6E6A;color:#fff;padding:0 16px;height:56px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200}
+.prog{height:4px;background:#E2E8F0}
+.prog-fill{height:4px;background:#0A6E6A;transition:width .3s}
+.qbody{padding:20px 16px 44px;max-width:560px;margin:0 auto}
+.qctr{font-size:11px;color:#0A6E6A;font-weight:800;letter-spacing:.1em;margin-bottom:14px}
+.qquestion{font-size:17px;font-weight:700;line-height:1.55;margin-bottom:24px;color:#0F172A}
+button.opt{display:flex;align-items:center;width:100%;padding:15px 18px;background:#fff;border:2px solid #E2E8F0;border-radius:12px;text-align:left;font-size:15px;margin-bottom:10px;min-height:52px;color:#1E293B;touch-action:manipulation;transition:border-color .12s,background .12s}
+button.opt:active,button.opt.sel{border-color:#0A6E6A;background:#E6F4F3}
+
+/* ─── RESULT ─────────────────────────────── */
+.rbody{padding:20px 16px 44px;max-width:540px;margin:0 auto}
+.rcard{background:#fff;border-radius:16px;padding:24px;border:1px solid #E2E8F0}
+.rscore-wrap{display:flex;align-items:center;gap:18px;margin-bottom:22px;padding:18px;border-radius:13px}
+.rscore-circ{width:80px;height:80px;border-radius:50%;background:#fff;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rscore-n{font-size:28px;font-weight:900}
+.rscore-l{font-size:10px;color:#94A3B8}
+.rrisk-t{font-size:18px;font-weight:800;margin-bottom:5px}
+.rrisk-s{font-size:14px;line-height:1.6}
+.rnote{background:#F8FAFC;border-radius:11px;padding:14px;margin-bottom:20px;font-size:13px;color:#64748B;line-height:1.65}
+button.bprimary{display:block;width:100%;padding:16px;background:#0A6E6A;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:800;min-height:52px;touch-action:manipulation}
+button.bprimary:active{background:#085450}
+
+/* ─── PEDIATRA LIST ──────────────────────── */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.scard{border-radius:12px;padding:14px 16px}
+.snum{font-size:26px;font-weight:900}
+.slbl{font-size:12px;color:#64748B}
+.plist{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #E2E8F0}
+.plist-hdr{padding:13px 16px;border-bottom:1px solid #F1F5F9;display:flex;justify-content:space-between;align-items:center}
+button.prow{display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:none;border-bottom:1px solid #F1F5F9;padding:14px 16px;text-align:left;min-height:64px;touch-action:manipulation}
+button.prow:last-child{border-bottom:none}
+button.prow:active{background:#F8FAFC}
+.pdot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.pname{font-weight:700;font-size:14px;color:#1E293B}
+.pmeta{font-size:11px;color:#64748B}
+.epds-n{font-size:17px;font-weight:900}
+.epds-l{font-size:10px;color:#94A3B8}
+.ppill{border-radius:100px;padding:4px 10px;font-size:11px;font-weight:700;border:1px solid;display:none}
+.parr{color:#CBD5E1;font-size:20px;flex-shrink:0}
+
+/* ─── PATIENT DETAIL ─────────────────────── */
+.dhdr{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 16px;height:56px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200}
+.dscr{padding:14px 16px 44px}
+.recbox{border-radius:13px;padding:14px;margin-bottom:14px}
+.rectext{font-size:14px;font-weight:600;line-height:1.5}
+.sc-row{display:flex;gap:10px;margin-bottom:16px}
+.sc-box{flex:1;text-align:center;padding:12px 8px;border-radius:11px}
+.sc-n{font-size:24px;font-weight:900}
+.sc-l{font-size:10px;font-weight:600}
+.sc-s{font-size:9px;color:#94A3B8}
+.dm-lbl{display:flex;justify-content:space-between;font-size:12px;color:#64748B;margin-bottom:3px}
+.dm-bg{height:7px;background:#F1F5F9;border-radius:4px;margin-bottom:9px}
+.dm-fill{height:7px;border-radius:4px;transition:width .5s}
+.flag-row{display:flex;align-items:center;gap:10px;padding:10px 13px;background:#FEF2F2;border-radius:9px;margin-bottom:7px}
+.flag-dot{width:8px;height:8px;border-radius:50%;background:#DC2626;flex-shrink:0}
+button.abtn{display:block;width:100%;padding:14px 16px;border-radius:11px;font-size:14px;font-weight:700;margin-bottom:9px;text-align:left;border:none;min-height:50px;touch-action:manipulation}
+button.abtn:active{opacity:.8}
+.leg{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#64748B}
+.leg-dot{width:14px;height:3px;border-radius:2px}
+
+/* ─── RESEARCH ───────────────────────────── */
+#vResearch{background:#0D1117;color:#fff;min-height:100vh}
+.rscr{padding:14px 16px 44px;max-width:960px;margin:0 auto}
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.kcard{background:rgba(255,255,255,.06);border-radius:13px;padding:15px 16px;border:1px solid rgba(255,255,255,.11)}
+.kval{font-size:26px;font-weight:900;margin-bottom:2px}
+.klbl{font-size:11px;opacity:.62;margin-bottom:1px}
+.kdelta{font-size:11px;opacity:.85}
+.dcard{background:rgba(255,255,255,.06);border-radius:16px;padding:18px;border:1px solid rgba(255,255,255,.11);margin-bottom:14px}
+.dcard h3{font-weight:700;font-size:14px;margin-bottom:14px}
+.impact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.imp-card{background:rgba(255,255,255,.05);border-radius:11px;padding:13px}
+.imp-val{font-size:22px;font-weight:900;margin-bottom:4px}
+.imp-lbl{font-size:12px;opacity:.88;margin-bottom:4px;line-height:1.4}
+.imp-src{font-size:10px;opacity:.42}
+.drisk-row{margin-bottom:12px}
+.drisk-lbl{font-size:12px;opacity:.62;margin-bottom:4px}
+.drisk-bar{height:9px;border-radius:5px;overflow:hidden;display:flex}
+.dleg{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.dleg-item{display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,.62)}
+
+/* ─── TABLET / DESKTOP ───────────────────── */
+@media(min-width:600px){
+  .cards-wrap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  button.rcard{flex-direction:column;align-items:center;text-align:center;padding:22px 18px}
+  .rcard-arr{display:none}
+  .qgrid{display:grid;grid-template-columns:1fr 1fr}
+  .sgrid{grid-template-columns:repeat(4,1fr)}
+  .ppill{display:inline-block}
+  .kgrid{grid-template-columns:repeat(4,1fr)}
+  .impact-grid{grid-template-columns:repeat(3,1fr)}
+  .det-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ LANDING ══════════════════ -->
+<div id="vLanding">
+  <div style="max-width:780px;margin:0 auto">
+    <div class="badge">MISM-PI · ProChild CoLAB · DEMO 2026</div>
+    <h1 class="big-title">Modelo Integrado de<br><span style="font-weight:300;font-style:italic">Saúde Mental na Primeira Infância</span></h1>
+    <p class="big-sub">Rastreio longitudinal 0–3 anos integrado na pediatria de cuidados primários.</p>
+    <div class="cards-wrap">
+      <button class="rcard" onclick="goView('family')">
+        <div class="rcard-ico">👨‍👩‍👶</div>
+        <div class="rcard-body">
+          <h3>Família</h3>
+          <div class="rsub">Pais &amp; Cuidadores</div>
+          <span class="rcard-pill" style="background:#34D399;color:#0F172A">Aceder →</span>
+        </div>
+        <span class="rcard-arr">›</span>
+      </button>
+      <button class="rcard" onclick="goView('pediatra')">
+        <div class="rcard-ico">🩺</div>
+        <div class="rcard-body">
+          <h3>Profissional</h3>
+          <div class="rsub">Pediatra · Psicólogo</div>
+          <span class="rcard-pill" style="background:#60A5FA;color:#0F172A">Aceder →</span>
+        </div>
+        <span class="rcard-arr">›</span>
+      </button>
+      <button class="rcard" onclick="goView('research')">
+        <div class="rcard-ico">🔬</div>
+        <div class="rcard-body">
+          <h3>Investigação</h3>
+          <div class="rsub">ProChild CoLAB</div>
+          <span class="rcard-pill" style="background:#C084FC;color:#0F172A">Aceder →</span>
+        </div>
+        <span class="rcard-arr">›</span>
+      </button>
+    </div>
+    <p class="disc">DADOS DE DEMONSTRAÇÃO · NÃO CONTÉM INFORMAÇÃO CLÍNICA REAL</p>
+  </div>
+</div>
+
+<!-- ══════════════════ FAMILY ══════════════════ -->
+<div id="vFamily" class="hide">
+
+  <!-- Home -->
+  <div id="fHome">
+    <div class="hdr teal">
+      <div class="hdr-info"><div class="hdr-title">Olá, Maria 👋</div><div class="hdr-sub">Acompanhamento do João · 18 meses</div></div>
+      <button class="hbtn on-teal" onclick="goView('landing')">Sair</button>
+    </div>
+    <div class="scr">
+      <div class="card">
+        <div style="font-weight:700;font-size:15px;color:#1E293B;margin-bottom:14px">📅 Rastreio 0–3 anos</div>
+        <div class="tl-wrap"><div class="tl" id="tlRender"></div></div>
+      </div>
+      <div class="abox">
+        <div class="abox-ico">⏰</div>
+        <div><div class="abox-t">Questionários pendentes · Consulta 28 Mai</div><div class="abox-s">Preencha antes da consulta para o seu pediatra ter os resultados.</div></div>
+      </div>
+      <div class="qgrid">
+        <button class="qcard" onclick="startQ('epds')">
+          <div class="qcard-ico">🧠</div>
+          <div class="qcard-body">
+            <div class="qcard-t">Como se sente?</div>
+            <div class="qcard-s" style="color:#3B82F6">Escala de Edimburgo (EPDS)</div>
+            <div class="qcard-ft"><span class="qcard-time">⏱ 3 min</span><span style="font-size:15px;font-weight:800;color:#3B82F6">→</span></div>
+          </div>
+        </button>
+        <button class="qcard" onclick="startQ('asqse')">
+          <div class="qcard-ico">👶</div>
+          <div class="qcard-body">
+            <div class="qcard-t">O desenvolvimento do João</div>
+            <div class="qcard-s" style="color:#8B5CF6">ASQ-SE · 18 meses</div>
+            <div class="qcard-ft"><span class="qcard-time">⏱ 4 min</span><span style="font-size:15px;font-weight:800;color:#8B5CF6">→</span></div>
+          </div>
+        </button>
+      </div>
+      <div class="card">
+        <div style="font-weight:700;font-size:15px;color:#1E293B;margin-bottom:12px">📚 Recursos para si</div>
+        <div class="res-row"><span style="font-size:24px;flex-shrink:0">💤</span><div style="flex:1"><div style="font-size:14px;font-weight:500">Rotinas de sono aos 18 meses</div><div style="font-size:12px;color:#0A6E6A">Desenvolvimento</div></div><span style="color:#CBD5E1;font-size:22px">›</span></div>
+        <div class="res-row"><span style="font-size:24px;flex-shrink:0">🎭</span><div style="flex:1"><div style="font-size:14px;font-weight:500">Como responder às birras com calma</div><div style="font-size:12px;color:#0A6E6A">Parentalidade</div></div><span style="color:#CBD5E1;font-size:22px">›</span></div>
+        <div class="res-row" style="border-bottom:none"><span style="font-size:24px;flex-shrink:0">🗣️</span><div style="flex:1"><div style="font-size:14px;font-weight:500">Estimulação da linguagem (16–24 meses)</div><div style="font-size:12px;color:#0A6E6A">Linguagem</div></div><span style="color:#CBD5E1;font-size:22px">›</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Questionnaire -->
+  <div id="fQuest" class="hide">
+    <div class="qhdr">
+      <button onclick="backHome()" style="background:rgba(255,255,255,.2);border:none;border-radius:8px;padding:8px 12px;color:#fff;font-size:13px;font-weight:700;min-height:38px;flex-shrink:0;touch-action:manipulation">← Voltar</button>
+      <div style="margin-left:10px;min-width:0">
+        <div id="qLabel" style="font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
+        <div id="qStepLabel" style="font-size:12px;opacity:.78"></div>
+      </div>
+    </div>
+    <div class="prog"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <div class="qbody">
+      <div class="qctr" id="qCtr"></div>
+      <div class="qquestion" id="qText"></div>
+      <div id="qOpts"></div>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div id="fResult" class="hide">
+    <div class="hdr teal">
+      <div class="hdr-info"><div class="hdr-title">Resultado</div></div>
+      <button class="hbtn on-teal" onclick="backHome()">← Início</button>
+    </div>
+    <div class="rbody">
+      <div class="rcard">
+        <h2 style="font-size:22px;font-weight:800;margin-bottom:6px">O seu resultado</h2>
+        <p id="rSubtitle" style="color:#64748B;margin-bottom:22px;font-size:13px"></p>
+        <div class="rscore-wrap" id="rWrap">
+          <div class="rscore-circ" id="rCirc">
+            <div class="rscore-n" id="rNum">0</div>
+            <div class="rscore-l">pontos</div>
+          </div>
+          <div>
+            <div class="rrisk-t" id="rRisk"></div>
+            <div class="rrisk-s" id="rMsg"></div>
+          </div>
+        </div>
+        <div class="rnote">ℹ️ <strong>Nota:</strong> Resultado partilhado com o seu pediatra. Não substitui avaliação clínica.<br>Em crise: <strong>808 24 24 24</strong></div>
+        <button class="bprimary" onclick="backHome()">Voltar ao Início</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /vFamily -->
+
+<!-- ══════════════════ PEDIATRA ══════════════════ -->
+<div id="vPediatra" class="hide">
+
+  <!-- List -->
+  <div id="pList">
+    <div class="hdr white">
+      <div class="hdr-info" style="color:#1E293B"><div class="hdr-title" style="color:#1E293B">Dashboard Clínico</div><div class="hdr-sub" style="color:#64748B">Dra. Ana Costa · Pediatria</div></div>
+      <button class="hbtn on-white" onclick="goView('landing')">Sair</button>
+    </div>
+    <div class="scr" style="max-width:860px">
+      <div class="sgrid" id="statsRender"></div>
+      <div class="plist">
+        <div class="plist-hdr"><span style="font-weight:700;font-size:14px">Lista de Famílias</span><span style="font-size:11px;color:#94A3B8">Por urgência clínica</span></div>
+        <div id="patListRender"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail -->
+  <div id="pDetail" class="hide">
+    <div class="dhdr">
+      <button onclick="backPList()" style="background:#F1F5F9;border:none;border-radius:9px;padding:8px 12px;font-size:13px;font-weight:700;color:#475569;flex-shrink:0;min-height:38px;touch-action:manipulation">← Lista</button>
+      <div style="flex:1;min-width:0;margin-left:10px">
+        <div style="font-weight:800;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#1E293B" id="dName"></div>
+        <div style="font-size:11px;color:#64748B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="dMeta"></div>
+      </div>
+      <div id="dStatusPill" style="flex-shrink:0;margin-left:8px"></div>
+    </div>
+    <div class="dscr">
+      <div id="dRec" class="recbox"></div>
+      <div class="det-2col">
+        <div class="card">
+          <div style="font-weight:700;color:#1E293B;margin-bottom:12px">📊 Scores de Rastreio</div>
+          <div class="sc-row" id="dScores"></div>
+          <div id="dDomains"></div>
+        </div>
+        <div class="card">
+          <div style="font-weight:700;color:#1E293B;margin-bottom:12px">📈 Trajectória Longitudinal</div>
+          <div id="dChart"></div>
+          <div class="leg">
+            <div class="leg-item"><div class="leg-dot" style="background:#EF4444"></div>SM Parental</div>
+            <div class="leg-item"><div class="leg-dot" style="background:#3B82F6"></div>Desenv.</div>
+            <div class="leg-item"><div class="leg-dot" style="background:#8B5CF6"></div>Díade</div>
+          </div>
+        </div>
+        <div class="card" id="dFlagsCard" style="display:none">
+          <div style="font-weight:700;color:#1E293B;margin-bottom:10px">⚠️ Sinalizadores Ativos</div>
+          <div id="dFlags"></div>
+        </div>
+        <div class="card">
+          <div style="font-weight:700;color:#1E293B;margin-bottom:10px">📋 Ações Recomendadas</div>
+          <div id="dActions"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /vPediatra -->
+
+<!-- ══════════════════ RESEARCH ══════════════════ -->
+<div id="vResearch" class="hide">
+  <div class="hdr dark">
+    <div class="hdr-info"><div class="hdr-title">Plataforma de Investigação</div><div class="hdr-sub" style="opacity:.5">ProChild CoLAB · Coorte MISM-PI · 2026</div></div>
+    <button class="hbtn on-dark" onclick="goView('landing')">Sair</button>
+  </div>
+  <div class="rscr">
+    <div class="kgrid">
+      <div class="kcard"><div class="kval" style="color:#22D3EE">68</div><div class="klbl">Crianças na Coorte</div><div class="kdelta" style="color:#22D3EE">+12% este mês</div></div>
+      <div class="kcard"><div class="kval" style="color:#A78BFA">94%</div><div class="klbl">Cobertura EPDS</div><div class="kdelta" style="color:#A78BFA">+3%</div></div>
+      <div class="kcard"><div class="kval" style="color:#F87171">18%</div><div class="klbl">EPDS ≥ 13</div><div class="kdelta" style="color:#F87171">prevalência</div></div>
+      <div class="kcard"><div class="kval" style="color:#34D399">23</div><div class="klbl">Encaminhamentos</div><div class="kdelta" style="color:#34D399">este mês</div></div>
+    </div>
+    <div class="dcard"><h3>📈 Crescimento da Coorte</h3><div id="rBarChart"></div></div>
+    <div class="dcard">
+      <h3>🧠 Risco por Domínio (%)</h3>
+      <div id="rDomains"></div>
+      <div class="dleg">
+        <div class="dleg-item"><div style="width:10px;height:10px;background:#22C55E;border-radius:2px;margin-right:4px"></div>Baixo</div>
+        <div class="dleg-item"><div style="width:10px;height:10px;background:#F59E0B;border-radius:2px;margin-right:4px"></div>Moderado</div>
+        <div class="dleg-item"><div style="width:10px;height:10px;background:#EF4444;border-radius:2px;margin-right:4px"></div>Alto</div>
+      </div>
+    </div>
+    <div class="dcard">
+      <h3>💡 Evidência Internacional de Impacto</h3>
+      <div class="impact-grid">
+        <div class="imp-card"><div class="imp-val" style="color:#34D399">€6–17</div><div class="imp-lbl">Retorno por €1 investido</div><div class="imp-src">Heckman, Nobel Economia</div></div>
+        <div class="imp-card"><div class="imp-val" style="color:#22D3EE">13%</div><div class="imp-lbl">Taxa retorno anualizada</div><div class="imp-src">Programa Abecedarian, EUA</div></div>
+        <div class="imp-card"><div class="imp-val" style="color:#A78BFA">€30–40K</div><div class="imp-lbl">Custo evitado por díade</div><div class="imp-src">Luca et al., 2020</div></div>
+        <div class="imp-card"><div class="imp-val" style="color:#FCD34D">&gt;99%</div><div class="imp-lbl">Adesão voluntária</div><div class="imp-src">BVC Suécia</div></div>
+        <div class="imp-card"><div class="imp-val" style="color:#F87171">40–60%</div><div class="imp-lbl">Redução diagnósticos tardios</div><div class="imp-src">HCP · NHS Reino Unido</div></div>
+        <div class="imp-card"><div class="imp-val" style="color:#FB923C">20%</div><div class="imp-lbl">Crianças com perturbação</div><div class="imp-src">CNPSM Portugal 2024</div></div>
+      </div>
+    </div>
+    <p class="disc" style="color:rgba(255,255,255,.35)">DADOS DE DEMONSTRAÇÃO · NÃO CONTÉM INFORMAÇÃO CLÍNICA REAL</p>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════
+var PATIENTS=[
+  {id:1,s:"red",child:"João Santos",mother:"Maria Santos",age:18,epds:16,asqse:65,visit:"10 Mai",next:"24 meses",
+   rec:"⚡ Encaminhamento urgente · EPDS = 16 (limiar ≥ 13) · Risco psicossocial elevado",
+   flags:["EPDS positivo (16/30)","Isolamento social","Sem apoio conjugal"],
+   dom:[{n:"SM Parental",s:72},{n:"Desenv. Criança",s:45},{n:"Relação Díade",s:60},{n:"Risco Psicossocial",s:78},{n:"Contexto Familiar",s:55}],
+   traj:[{j:"1m",sm:40,dev:20,rel:30},{j:"6m",sm:55,dev:30,rel:42},{j:"12m",sm:65,dev:38,rel:50},{j:"18m",sm:72,dev:45,rel:60}]},
+  {id:2,s:"yellow",child:"Sofia Ferreira",mother:"Ana Ferreira",age:12,epds:9,asqse:40,visit:"15 Mai",next:"18 meses",
+   rec:"🔔 Monitorização reforçada · Recursos parentalidade · Reavaliar em 6 meses",
+   flags:["Ansiedade parental moderada","Dificuldades vinculação leves"],
+   dom:[{n:"SM Parental",s:45},{n:"Desenv. Criança",s:35},{n:"Relação Díade",s:30},{n:"Risco Psicossocial",s:40},{n:"Contexto Familiar",s:28}],
+   traj:[{j:"1m",sm:30,dev:20,rel:25},{j:"6m",sm:38,dev:28,rel:28},{j:"12m",sm:45,dev:35,rel:30}]},
+  {id:3,s:"green",child:"Pedro Oliveira",mother:"Carla Oliveira",age:24,epds:4,asqse:15,visit:"18 Mai",next:"36 meses",
+   rec:"✅ Desenvolvimento normativo · Manter rastreio de rotina aos 36 meses",flags:[],
+   dom:[{n:"SM Parental",s:15},{n:"Desenv. Criança",s:10},{n:"Relação Díade",s:12},{n:"Risco Psicossocial",s:18},{n:"Contexto Familiar",s:14}],
+   traj:[{j:"1m",sm:20,dev:15,rel:18},{j:"6m",sm:18,dev:12,rel:15},{j:"12m",sm:16,dev:11,rel:13},{j:"18m",sm:14,dev:10,rel:12},{j:"24m",sm:15,dev:10,rel:12}]},
+  {id:4,s:"red",child:"Beatriz Lopes",mother:"Rita Lopes",age:6,epds:18,asqse:0,visit:"20 Mai",next:"12 meses",
+   rec:"🚨 EPDS GRAVE (18/30) · Referenciação urgente pedopsiquiatria · Apoiar vínculo",
+   flags:["EPDS grave (18/30)","Dificuldade vinculação severa","Isolamento familiar"],
+   dom:[{n:"SM Parental",s:82},{n:"Desenv. Criança",s:25},{n:"Relação Díade",s:70},{n:"Risco Psicossocial",s:65},{n:"Contexto Familiar",s:75}],
+   traj:[{j:"1m",sm:75,dev:20,rel:65},{j:"6m",sm:82,dev:25,rel:70}]},
+  {id:5,s:"green",child:"Tomás Martins",mother:"Inês Martins",age:36,epds:5,asqse:20,visit:"12 Mai",next:"Concluído",
+   rec:"✅ Protocolo 0–3 concluído · Transição para coorte longitudinal",flags:[],
+   dom:[{n:"SM Parental",s:18},{n:"Desenv. Criança",s:12},{n:"Relação Díade",s:10},{n:"Risco Psicossocial",s:15},{n:"Contexto Familiar",s:8}],
+   traj:[{j:"1m",sm:22,dev:18,rel:15},{j:"6m",sm:20,dev:15,rel:13},{j:"12m",sm:19,dev:13,rel:11},{j:"18m",sm:18,dev:12,rel:10},{j:"24m",sm:18,dev:12,rel:10},{j:"36m",sm:18,dev:12,rel:10}]}
+];
+
+var EPDS=[
+  {q:"Nas últimas 7 dias, consegui rir e ver o lado divertido das coisas?",opts:[{v:0,l:"Tanto como habitualmente"},{v:1,l:"Não tanto"},{v:2,l:"Muito menos agora"},{v:3,l:"De modo algum"}]},
+  {q:"Nas últimas 7 dias, senti-me ansiosa ou preocupada sem motivo?",opts:[{v:0,l:"Não, de modo algum"},{v:1,l:"Quase nunca"},{v:2,l:"Por vezes"},{v:3,l:"Sim, muito frequentemente"}]},
+  {q:"Nas últimas 7 dias, senti-me infeliz, deprimida ou em baixo?",opts:[{v:0,l:"Nunca"},{v:1,l:"Raramente"},{v:2,l:"Às vezes"},{v:3,l:"Com muita frequência"}]},
+  {q:"Tive dificuldade em adormecer por estar preocupada?",opts:[{v:0,l:"Nunca"},{v:1,l:"Às vezes"},{v:2,l:"Com alguma frequência"},{v:3,l:"Frequentemente"}]},
+  {q:"Senti-me tão infeliz que cheguei a chorar?",opts:[{v:0,l:"Nunca"},{v:1,l:"Raramente"},{v:2,l:"Frequentemente"},{v:3,l:"Quase sempre"}]}
+];
+var ASQSE=[
+  {q:"O seu bebé acalma-se quando é confortado por si?",opts:[{v:0,l:"Frequentemente"},{v:5,l:"Às vezes"},{v:10,l:"Raramente / Nunca"}]},
+  {q:"O seu bebé imita os seus gestos ou sons?",opts:[{v:0,l:"Frequentemente"},{v:5,l:"Às vezes"},{v:10,l:"Raramente / Nunca"}]},
+  {q:"O seu bebé sorri em resposta às suas expressões?",opts:[{v:0,l:"Frequentemente"},{v:5,l:"Às vezes"},{v:10,l:"Raramente / Nunca"}]},
+  {q:"O seu bebé fica perturbado com mudanças de rotina?",opts:[{v:0,l:"Raramente / Nunca"},{v:5,l:"Às vezes"},{v:10,l:"Frequentemente"}]},
+  {q:"O seu bebé tem birras intensas (mais de 15 min)?",opts:[{v:0,l:"Raramente / Nunca"},{v:5,l:"Às vezes"},{v:10,l:"Frequentemente"}]}
+];
+
+var SI={
+  red:   {dot:"#EF4444",label:"Encaminhamento",bg:"#FEF2F2",border:"#FECACA",clr:"#DC2626"},
+  yellow:{dot:"#F59E0B",label:"Monitorização", bg:"#FFFBEB",border:"#FDE68A",clr:"#B45309"},
+  green: {dot:"#22C55E",label:"Normativo",     bg:"#F0FDF4",border:"#BBF7D0",clr:"#15803D"}
+};
+
+var qType='epds', qStep=0, qAns={};
+
+// ══════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════
+function goView(v){
+  var ids=['vLanding','vFamily','vPediatra','vResearch'];
+  var map={landing:'vLanding',family:'vFamily',pediatra:'vPediatra',research:'vResearch'};
+  ids.forEach(function(id){ document.getElementById(id).className='hide'; });
+  document.getElementById(map[v]).className='';
+  window.scrollTo(0,0);
+  if(v==='family')   showFHome();
+  if(v==='pediatra') { buildPList(); showPList(); }
+  if(v==='research') buildResearch();
+}
+
+// ══════════════════════════════════════════
+// FAMILY
+// ══════════════════════════════════════════
+function showFHome(){
+  document.getElementById('fHome').className='';
+  document.getElementById('fQuest').className='hide';
+  document.getElementById('fResult').className='hide';
+  buildTL();
+  window.scrollTo(0,0);
+}
+function backHome(){ qStep=0; qAns={}; showFHome(); }
+
+function buildTL(){
+  var wins=[
+    {l:"1 mês",dn:true,cu:false,d:"Out '24"},
+    {l:"6 meses",dn:true,cu:false,d:"Mar '25"},
+    {l:"12 meses",dn:true,cu:false,d:"Set '25"},
+    {l:"18 meses",dn:true,cu:true,d:"Mar '26"},
+    {l:"24 meses",dn:false,cu:false,d:"Set '26"},
+    {l:"36 meses",dn:false,cu:false,d:"Set '27"}
+  ];
+  var c=document.getElementById('tlRender'); c.innerHTML='';
+  wins.forEach(function(w,i){
+    var item=document.createElement('div'); item.className='tl-item';
+    var col=document.createElement('div'); col.className='tl-col';
+    var dot=document.createElement('div'); dot.className='tl-dot '+(w.cu?'cu':w.dn?'dn':'td');
+    dot.textContent=w.dn?'✓':(i+1);
+    var lbl=document.createElement('div'); lbl.className='tl-lbl'+(w.cu?' cu':''); lbl.textContent=w.l;
+    var dt=document.createElement('div'); dt.className='tl-dt'; dt.textContent=w.d;
+    col.appendChild(dot); col.appendChild(lbl); col.appendChild(dt); item.appendChild(col);
+    if(i<wins.length-1){
+      var ln=document.createElement('div'); ln.className='tl-ln';
+      ln.style.background=w.dn?'#15803D':'#E2E8F0'; item.appendChild(ln);
+    }
+    c.appendChild(item);
+  });
+}
+
+function startQ(type){
+  qType=type; qStep=0; qAns={};
+  document.getElementById('fHome').className='hide';
+  document.getElementById('fResult').className='hide';
+  document.getElementById('fQuest').className='';
+  window.scrollTo(0,0);
+  renderQ();
+}
+function renderQ(){
+  var qs=qType==='epds'?EPDS:ASQSE;
+  document.getElementById('qLabel').textContent=qType==='epds'?'Escala de Edimburgo (EPDS)':'ASQ-SE · 18 meses';
+  document.getElementById('qStepLabel').textContent='Questão '+(qStep+1)+' de '+qs.length;
+  document.getElementById('qCtr').textContent=(qStep+1)+' / '+qs.length;
+  document.getElementById('qText').textContent=qs[qStep].q;
+  document.getElementById('progFill').style.width=((qStep/qs.length)*100)+'%';
+  var wrap=document.getElementById('qOpts'); wrap.innerHTML='';
+  qs[qStep].opts.forEach(function(o){
+    var btn=document.createElement('button'); btn.className='opt';
+    if(qAns[qStep]===o.v) btn.classList.add('sel');
+    btn.textContent=o.l;
+    btn.setAttribute('onclick','pickOpt('+o.v+')');
+    wrap.appendChild(btn);
+  });
+}
+function pickOpt(v){
+  var qs=qType==='epds'?EPDS:ASQSE;
+  qAns[qStep]=v;
+  if(qStep<qs.length-1){ qStep++; window.scrollTo(0,0); renderQ(); }
+  else showResult();
+}
+function showResult(){
+  document.getElementById('fQuest').className='hide';
+  document.getElementById('fResult').className='';
+  window.scrollTo(0,0);
+  var score=0; for(var k in qAns) score+=qAns[k];
+  var risk=score>=13?{l:'Elevado',c:'#DC2626',bg:'#FEF2F2',msg:'Os resultados serão partilhados com o seu médico. Se estiver em crise, ligue 808 24 24 24.'}
+           :score>=9 ?{l:'Moderado',c:'#B45309',bg:'#FFFBEB',msg:'Resultados partilhados com o pediatra. Consulte o médico brevemente.'}
+           :           {l:'Baixo',  c:'#15803D',bg:'#F0FDF4',msg:'Sem indicadores de risco de momento. Continue a acompanhar o seu bebé.'};
+  document.getElementById('rSubtitle').textContent=qType==='epds'?'Escala de Edimburgo (EPDS) · 5 questões':'ASQ-SE · 18 meses · 5 questões';
+  document.getElementById('rWrap').style.background=risk.bg;
+  document.getElementById('rCirc').style.boxShadow='0 0 0 4px '+risk.c+'33';
+  document.getElementById('rNum').style.color=risk.c; document.getElementById('rNum').textContent=score;
+  document.getElementById('rRisk').style.color=risk.c; document.getElementById('rRisk').textContent='Risco '+risk.l;
+  document.getElementById('rMsg').textContent=risk.msg;
+}
+
+// ══════════════════════════════════════════
+// PEDIATRA
+// ══════════════════════════════════════════
+function showPList(){ document.getElementById('pList').className=''; document.getElementById('pDetail').className='hide'; window.scrollTo(0,0); }
+function backPList(){ showPList(); }
+
+function buildPList(){
+  var counts={red:0,yellow:0,green:0};
+  PATIENTS.forEach(function(p){ counts[p.s]++; });
+  var sg=document.getElementById('statsRender'); sg.innerHTML='';
+  [{l:'Total',v:PATIENTS.length,c:'#0A6E6A',bg:'#E6F4F3'},{l:'Encaminhamento',v:counts.red,c:'#DC2626',bg:'#FEF2F2'},{l:'Monitorização',v:counts.yellow,c:'#B45309',bg:'#FFFBEB'},{l:'Normativo',v:counts.green,c:'#15803D',bg:'#F0FDF4'}]
+  .forEach(function(s){
+    var d=document.createElement('div'); d.className='scard';
+    d.style.cssText='background:'+s.bg+';border:1px solid '+s.c+'22';
+    d.innerHTML='<div class="snum" style="color:'+s.c+'">'+s.v+'</div><div class="slbl">'+s.l+'</div>';
+    sg.appendChild(d);
+  });
+  var sorted=PATIENTS.slice().sort(function(a,b){ var o={red:0,yellow:1,green:2}; return o[a.s]-o[b.s]; });
+  var pl=document.getElementById('patListRender'); pl.innerHTML='';
+  sorted.forEach(function(p,i){
+    var inf=SI[p.s];
+    var btn=document.createElement('button'); btn.className='prow';
+    if(i===sorted.length-1) btn.style.borderBottom='none';
+    btn.innerHTML='<div class="pdot" style="background:'+inf.dot+'"></div>'
+      +'<div style="flex:1;min-width:0"><div class="pname">'+p.child+'</div><div class="pmeta">'+p.mother+' · '+p.age+'m · '+p.visit+'</div></div>'
+      +'<div style="text-align:center;flex-shrink:0"><div class="epds-n" style="color:'+(p.epds>=13?'#DC2626':p.epds>=9?'#B45309':'#15803D')+'">'+p.epds+'</div><div class="epds-l">EPDS</div></div>'
+      +'<div class="ppill" style="background:'+inf.bg+';border-color:'+inf.border+';color:'+inf.clr+'">'+inf.label+'</div>'
+      +'<div class="parr">›</div>';
+    btn.setAttribute('onclick','showPatient('+p.id+')');
+    pl.appendChild(btn);
+  });
+}
+
+function showPatient(id){
+  var p=PATIENTS.filter(function(x){return x.id===id;})[0];
+  var inf=SI[p.s];
+  document.getElementById('pList').className='hide';
+  document.getElementById('pDetail').className='';
+  window.scrollTo(0,0);
+  document.getElementById('dName').textContent=p.child;
+  document.getElementById('dMeta').textContent=p.mother+' · '+p.age+' meses · '+p.visit;
+  document.getElementById('dStatusPill').innerHTML='<div style="display:flex;align-items:center;gap:6px;background:'+inf.bg+';padding:6px 12px;border-radius:100px;border:1px solid '+inf.border+'"><div style="width:9px;height:9px;border-radius:50%;background:'+inf.dot+'"></div><span style="font-size:12px;font-weight:700;color:'+inf.clr+'">'+inf.label+'</span></div>';
+  var rb=document.getElementById('dRec'); rb.style.cssText='background:'+inf.bg+';border:1px solid '+inf.border;
+  rb.innerHTML='<div class="rectext" style="color:'+inf.clr+'">'+p.rec+'</div>';
+  var sh='<div class="sc-box" style="background:'+(p.epds>=13?'#FEF2F2':p.epds>=9?'#FFFBEB':'#F0FDF4')+'"><div class="sc-n" style="color:'+(p.epds>=13?'#DC2626':p.epds>=9?'#B45309':'#15803D')+'">'+p.epds+'</div><div class="sc-l">EPDS /30</div><div class="sc-s">limiar ≥ 13</div></div>';
+  if(p.asqse>0) sh+='<div class="sc-box" style="background:'+(p.asqse>=50?'#FEF2F2':p.asqse>=35?'#FFFBEB':'#F0FDF4')+'"><div class="sc-n" style="color:'+(p.asqse>=50?'#DC2626':p.asqse>=35?'#B45309':'#15803D')+'">'+p.asqse+'</div><div class="sc-l">ASQ-SE</div><div class="sc-s">limiar ≥ 50</div></div>';
+  document.getElementById('dScores').innerHTML=sh;
+  document.getElementById('dDomains').innerHTML=p.dom.map(function(d){ return '<div class="dm-lbl"><span>'+d.n+'</span><span style="font-weight:700">'+d.s+'</span></div><div class="dm-bg"><div class="dm-fill" style="width:'+d.s+'%;background:'+(d.s>=65?'#EF4444':d.s>=40?'#F59E0B':'#22C55E')+'"></div></div>'; }).join('');
+  document.getElementById('dChart').innerHTML=makeSVGLine(p.traj);
+  var fc=document.getElementById('dFlagsCard');
+  fc.style.display=p.flags.length?'block':'none';
+  document.getElementById('dFlags').innerHTML=p.flags.map(function(f){ return '<div class="flag-row"><div class="flag-dot"></div><span style="font-size:13px;color:#7F1D1D">'+f+'</span></div>'; }).join('');
+  var acts='';
+  if(p.s==='red') acts='<button class="abtn" style="background:#DC2626;color:#fff">⚡ Warm Hand-off → Psicólogo</button><button class="abtn" style="background:#FEF2F2;color:#DC2626;border:1px solid #FECACA">📋 Gerar Relatório de Referenciação</button><button class="abtn" style="background:#F8FAFC;color:#475569;border:1px solid #E2E8F0">📞 Activar Equipa IP</button>';
+  else if(p.s==='yellow') acts='<button class="abtn" style="background:#B45309;color:#fff">📚 Enviar recursos parentalidade</button><button class="abtn" style="background:#FFFBEB;color:#B45309;border:1px solid #FDE68A">📅 Consulta reforçada 3 meses</button>';
+  else acts='<button class="abtn" style="background:#15803D;color:#fff">✅ Registar desenvolvimento normativo</button><button class="abtn" style="background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0">📅 Próxima janela: '+p.next+'</button>';
+  document.getElementById('dActions').innerHTML=acts;
+}
+
+// ── SVG line chart (no dependencies) ──────
+function makeSVGLine(traj){
+  var W=300,H=150,pl=28,pr=10,pt=10,pb=22;
+  var cW=W-pl-pr, cH=H-pt-pb, n=traj.length;
+  var xs=function(i){return pl+(i/(n-1))*cW;};
+  var ys=function(v){return pt+cH-(v/100)*cH;};
+  var s='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;display:block">';
+  [0,25,50,75,100].forEach(function(v){
+    var y=ys(v);
+    s+='<line x1="'+pl+'" y1="'+y+'" x2="'+(W-pr)+'" y2="'+y+'" stroke="#F1F5F9" stroke-width="1"/>';
+    s+='<text x="'+(pl-4)+'" y="'+(y+3.5)+'" text-anchor="end" font-size="8" fill="#94A3B8">'+v+'</text>';
+  });
+  traj.forEach(function(t,i){ s+='<text x="'+xs(i)+'" y="'+(H-5)+'" text-anchor="middle" font-size="8.5" fill="#94A3B8">'+t.j+'</text>'; });
+  [['sm','#EF4444'],['dev','#3B82F6'],['rel','#8B5CF6']].forEach(function(ds){
+    var key=ds[0],clr=ds[1];
+    var pts=traj.map(function(t,i){return xs(i)+','+ys(t[key]);}).join(' ');
+    s+='<polyline points="'+pts+'" fill="none" stroke="'+clr+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+    traj.forEach(function(t,i){ s+='<circle cx="'+xs(i)+'" cy="'+ys(t[key])+'" r="3.5" fill="'+clr+'" stroke="#fff" stroke-width="1.5"/>'; });
+  });
+  return s+'</svg>';
+}
+
+// ══════════════════════════════════════════
+// RESEARCH (pure CSS charts, no CDN)
+// ══════════════════════════════════════════
+function buildResearch(){
+  var cohort=[{m:"Jan",v:19,a:15,r:8},{m:"Fev",v:23,a:16,r:9},{m:"Mar",v:27,a:18,r:10},{m:"Abr",v:30,a:20,r:11},{m:"Mai",v:34,a:22,r:12}];
+  var maxT=0; cohort.forEach(function(d){var t=d.v+d.a+d.r;if(t>maxT)maxT=t;});
+  var CH=130;
+  var bars='<div style="display:flex;align-items:flex-end;gap:6px;height:'+(CH+20)+'px">';
+  cohort.forEach(function(d){
+    var t=d.v+d.a+d.r, bH=Math.round((t/maxT)*CH);
+    var rH=Math.round((d.r/t)*bH), aH=Math.round((d.a/t)*bH), vH=bH-rH-aH;
+    bars+='<div style="flex:1;display:flex;flex-direction:column;align-items:stretch">'
+      +'<div style="height:'+bH+'px;display:flex;flex-direction:column;border-radius:4px 4px 0 0;overflow:hidden;flex-shrink:0">'
+      +'<div style="height:'+rH+'px;background:#EF4444"></div>'
+      +'<div style="height:'+aH+'px;background:#F59E0B"></div>'
+      +'<div style="flex:1;background:#22C55E"></div>'
+      +'</div><div style="font-size:10px;color:rgba(255,255,255,.55);text-align:center;padding-top:5px">'+d.m+'</div></div>';
+  });
+  document.getElementById('rBarChart').innerHTML=bars+'</div>';
+  var domains=[
+    {d:'SM Parental',l:52,m:30,h:18},{d:'Desenv. Criança',l:68,m:22,h:10},
+    {d:'Relação Díade',l:58,m:28,h:14},{d:'Risco Psicossocial',l:45,m:35,h:20},
+    {d:'Contexto Familiar',l:60,m:28,h:12}
+  ];
+  document.getElementById('rDomains').innerHTML=domains.map(function(d){
+    return '<div class="drisk-row"><div class="drisk-lbl">'+d.d+'</div><div class="drisk-bar"><div style="width:'+d.l+'%;background:#22C55E"></div><div style="width:'+d.m+'%;background:#F59E0B"></div><div style="width:'+d.h+'%;background:#EF4444"></div></div></div>';
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+buildTL();
+</script>
+</body>
+</html>
